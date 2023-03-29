@@ -2,13 +2,18 @@ const express = require('express');
 require('dotenv').config();
 
 const cors = require('cors');
-const {getConnection}= require('./libs/postgres')
+
 const app = express();
 
 
 
-app.use(cors())
-getConnection()
+app.use(cors());
+app.use(express.json());
+
+
+
+app.use('/api/users', require('./routes/usuarios'));
+
 
 app.set('port', process.env.PORT || 3000);
 

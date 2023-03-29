@@ -1,16 +1,14 @@
-const { Client } = require('pg');
 
-const getConnection = async () => {
-    const client = new Client({
+const {Sequelize} = require('sequelize');
+const {setupModels} = require('../models');
+const sequelize = new Sequelize('my_hospital', 'dagopla', 'admin123', {
         host: 'localhost',
+        dialect: 'postgres',
         port: 5432,
-        user: 'dagopla',
-        password: 'admin123',
-        database: 'my_store'
+        logging:true
+});
 
-    });
-    await client.connect();
-    console.log('Conectado a la DB');
-    return client
-}
-module.exports={getConnection};
+setupModels(sequelize);
+
+sequelize.sync({force: false})
+module.exports=sequelize;
