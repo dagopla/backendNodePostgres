@@ -26,7 +26,7 @@ const UserSchema={
     },
     role:{
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
         defaultValue: 'USER_ROLE',
     },
     google:{

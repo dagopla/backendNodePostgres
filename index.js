@@ -13,7 +13,7 @@ app.use(express.json());
 
 
 app.use('/api/users', require('./routes/usuarios'));
-
+app.use('/api/auth', require('./routes/auth'));
 
 app.set('port', process.env.PORT || 3000);
 
