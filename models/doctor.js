@@ -1,7 +1,8 @@
 const {Model, DataTypes }=require('sequelize');
-const{USER_TABLE}=require('./usuario');
-const HOSPITAL_TABLE='hospitals';
-const HospitalSchema={
+const {USER_TABLE}=require('./usuario');
+const {HOSPITAL_TABLE}=require('./hospital');
+const DOCTOR_TABLE='doctors';
+const DoctorSchema={
     id:{
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -29,6 +30,18 @@ const HospitalSchema={
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
     },
+    hospitalId:{
+        field:'hospital_id',
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        required: true,
+        references: {
+            model: HOSPITAL_TABLE,
+            key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+    },
     status:{
         type: DataTypes.BOOLEAN,
         allowNull: false,
@@ -37,19 +50,19 @@ const HospitalSchema={
 
 }
 
-class Hospital extends Model{
+class Doctor extends Model{
     static associate(models){
         this.belongsTo(models.User, {foreignKey: 'userId', as: 'users'});
-        this.hasMany(models.Doctor, {foreignKey: 'hospitalId', as: 'doctors'});
+        this.belongsTo(models.Hospital, {foreignKey: 'hospitalId', as: 'hospitals'});
     }
     static config(sequelize){
         return {
             sequelize,
-            tableName: HOSPITAL_TABLE,
-            modelName: 'Hospital',
+            tableName: DOCTOR_TABLE,
+            modelName: 'Doctor',
             timestamps: false,
         }
     }
 }
 
-module.exports={Hospital, HospitalSchema, HOSPITAL_TABLE};
+module.exports={Doctor, DoctorSchema, DOCTOR_TABLE};

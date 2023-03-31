@@ -27,8 +27,8 @@ const createUser = async (req, res) => {
         }
         const salt = bcrypt.genSaltSync();
         req.body.password= bcrypt.hashSync(password, salt);
-        await models.User.create(req.body);
-        const token = await generateToken(req.body.id);
+        const newUser=await models.User.create(req.body);
+        const token = await generateToken(newUser.dataValues.id);
         res.json({
             ok: true,
             usuario: req.body,

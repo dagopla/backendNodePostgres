@@ -2,9 +2,16 @@ const {models}=require('../libs/postgres.js');
 
 const getHospital = async (req, res) => {
     const hospitalId = req.params.id;
+    const hospital = await models.Hospital.findByPk(hospitalId);
+    if (!hospital) {
+        return res.status(404).json({
+            ok: false,
+            msg: 'No existe un hospital con ese id'
+        });
+    }
+        
     
     try {
-        const hospital = await models.Hospital.findByPk(hospitalId);
         res.json({
             ok: true,
             hospital
@@ -46,6 +53,7 @@ const updateHospital = async (req, res) => {
                 msg: 'No existe un hospital con ese id'
             });
         }
+
         await models.Hospital.update(req.body, { where: { id: hospitalId } });
         res.json({
             ok: true,
