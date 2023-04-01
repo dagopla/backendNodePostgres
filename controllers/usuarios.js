@@ -3,14 +3,21 @@ const { response } = require('express');
 const { models } = require('../libs/postgres.js');
 const { generateToken } = require('../helpers/jwt.js');
 const getUsers = async (req, res) => {
-    const rta = await models.User.findAll();
-    const response=rta.map(user=>{
+    const from=Number(req.query.from)||0;
+    const [users,total]=await Promise.all(
+        [
+            models.User.findAll({offset:from,limit:5}),
+            models.User.count()
+        ]
+    );
+    const response=users.map(user=>{
         const {password,...userWithoutPassword}=user.dataValues;
         return userWithoutPassword;
     })
     res.json({
         ok: true,
-        usuarios: response
+        usuarios: response,
+        total
     });
 
 }

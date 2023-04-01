@@ -39,8 +39,8 @@ const HospitalSchema={
 
 class Hospital extends Model{
     static associate(models){
-        this.belongsTo(models.User, {foreignKey: 'userId', as: 'users'});
-        this.hasMany(models.Doctor, {foreignKey: 'hospitalId', as: 'doctors'});
+        this.belongsTo(models.User, {foreignKey: 'userId', as: 'user'});
+        this.hasMany(models.Doctor, {foreignKey: 'hospitalId', as: 'doctor'});
     }
     static config(sequelize){
         return {

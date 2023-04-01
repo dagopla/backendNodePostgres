@@ -16,6 +16,8 @@ app.use('/api/users', require('./routes/usuarios'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/hospitals', require('./routes/hospitals'));
 app.use('/api/doctors', require('./routes/doctors'));
+app.use('/api/search', require('./routes/search'));
+app.use('/api/uploads', require('./routes/uploads'));
 
 app.set('port', process.env.PORT || 3000);
 

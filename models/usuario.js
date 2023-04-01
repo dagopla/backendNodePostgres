@@ -33,6 +33,12 @@ const UserSchema={
         type: DataTypes.BOOLEAN,
         defaultValue: false,
     },
+    image:{
+        type: DataTypes.STRING,
+        allowNull: true,
+        
+    },
+
     creatAt:{
         type: DataTypes.DATE,
         field: 'created_at',
@@ -43,7 +49,7 @@ const UserSchema={
 
 class User extends Model{
     static associate(models){
-        this.hasMany(models.Hospital, {foreignKey: 'userId', as: 'hospitals'});
+        this.hasMany(models.Hospital, {foreignKey: 'userId', as: 'hospital'});
     }
     static config(sequelize){
         return {
