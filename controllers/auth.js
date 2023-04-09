@@ -36,7 +36,43 @@ const login = async (req, res=response) => {
         });
     }
 }
+const loginWithGoogle = async (req, res=response) => {
+    const { token } = req.body;
+    try {
+        // const { name, email, picture } = await googleVerify(token);
+        // const userExist=await models.User.findOne({where:{email:email}});
+        // let user;
+        // if (!userExist) {
+        //     user=await models.User.create({
+        //         name,
+        //         email,
+        //         password:'@@@',
+        //         img:picture,
+        //         google:true
+        //     });
+        // } else {
+        //     user=userExist;
+        //     user.google=true;
+        //     await models.User.update(user,{where:{id:user.id}});
+
+        // }
+        // // Generar el JWT
+        // const token= await generateToken(user.id);
+        res.json({
+            ok:true,
+            token
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(401).json({
+            ok:false,
+            msg:'Token no es correcto'
+        });
+    }
+}
+
 
 module.exports = {
-    login
+    login,
+    loginWithGoogle
 }

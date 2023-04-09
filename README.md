@@ -1,6 +1,6 @@
-docker-compose up -d postgress
+docker-compose up -d postgres
 
-docker-compose up -d postgress
-docker-compose exec postgress bash
+docker-compose up -d postgres
+docker-compose exec postgres bash
 
 docker inspect bc41b4ecff33
