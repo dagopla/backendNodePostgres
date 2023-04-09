@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const { response } = require('express');
 const { generateToken } = require('../helpers/jwt.js');
 const { models } = require('../libs/postgres.js');
+const { googleVerify } = require('../helpers/google-verify.js');
 
 const login = async (req, res=response) => {
 
@@ -37,30 +38,30 @@ const login = async (req, res=response) => {
     }
 }
 const loginWithGoogle = async (req, res=response) => {
-    const { token } = req.body;
     try {
-        // const { name, email, picture } = await googleVerify(token);
-        // const userExist=await models.User.findOne({where:{email:email}});
-        // let user;
-        // if (!userExist) {
-        //     user=await models.User.create({
-        //         name,
-        //         email,
-        //         password:'@@@',
-        //         img:picture,
-        //         google:true
-        //     });
-        // } else {
-        //     user=userExist;
-        //     user.google=true;
-        //     await models.User.update(user,{where:{id:user.id}});
+        const { name, email, picture } = await googleVerify(req.body.token);
+        const userExist=await models.User.findOne({where:{email:email}});
+        let user;
+        if (!userExist) {
+            user=await models.User.create({
+                name,
+                email,
+                password:'@@@',
+                img:picture,
+                google:true
+            });
+        } else {
+            user=userExist;
+            user.google=true;
+            await models.User.update(user,{where:{id:user.id}});
 
-        // }
-        // // Generar el JWT
-        // const token= await generateToken(user.id);
+        }
+        // Generar el JWT
+        const token= await generateToken(user.id);
         res.json({
             ok:true,
             token
+            
         });
     } catch (error) {
         console.log(error);
