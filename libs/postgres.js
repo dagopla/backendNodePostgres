@@ -10,7 +10,7 @@ const URL = `postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${
 const sequelize = new Sequelize(URL,
         {
                 dialect: 'postgres',
-                logging: true,
+                logging: false,
         });
 setupModels(sequelize);
 

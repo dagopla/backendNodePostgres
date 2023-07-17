@@ -1,3 +1,4 @@
+const fs = require('fs');
 const {v4:uuidv4}=require('uuid');
 const path=require('path');
 const { updateImage, deleteImg } = require('../helpers/updateImage.js');
@@ -21,7 +22,7 @@ const putAttachment= async (req, res) => {
             msg: 'No hay ningún archivo'
         });
     }
-    const file = req.files.image;
+    const file = req.files.files;
     const nombreCortado = file.name.split('.');
     const extensionArchivo = nombreCortado[nombreCortado.length - 1];   
     // Validar extensión
@@ -54,7 +55,7 @@ const putAttachment= async (req, res) => {
         }
 
         // Actualizar base de datos
-
+        updateImage(tipo, id, path, nombreArchivo);
         res.json({
             ok: true,
             msg: 'Archivo subido',
@@ -68,7 +69,7 @@ const returnImg = (req, res) => {
     const foto = req.params.img;
 
     let pathImg = path.join(__dirname, `../uploads/${tipo}/${foto}`);
-    if (!deleteImg(pathImg)) {
+    if (!fs.existsSync(pathImg)) {
         pathImg = path.join(__dirname, `../uploads/No-image-found.jpg`);
     }
     res.sendFile(pathImg);

@@ -73,11 +73,14 @@ const loginWithGoogle = async (req, res=response) => {
 }
 const renewToken = async (req, res=response) => {
     const uid=req.uid;
+    const user=await models.User.findByPk(uid);
+    console.log(user);
     // Generar el JWT
     const token= await generateToken(uid);
     res.json({
         ok:true,
-        token
+        user,
+        token,
     });
 }
 
