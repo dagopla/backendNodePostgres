@@ -47,7 +47,7 @@ const loginWithGoogle = async (req, res=response) => {
                 name,
                 email,
                 password:'@@@',
-                img:picture,
+                image:picture,
                 google:true
             });
         } else {
@@ -74,8 +74,11 @@ const loginWithGoogle = async (req, res=response) => {
 const renewToken = async (req, res=response) => {
     const uid=req.uid;
     // Generar el JWT
+    const userLoged=await models.User.findOne({where:{id:uid}});
+    const {password,...user}=userLoged.dataValues;
     const token= await generateToken(uid);
     res.json({
+        user,
         ok:true,
         token
     });

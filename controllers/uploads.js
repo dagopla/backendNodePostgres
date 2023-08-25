@@ -1,6 +1,8 @@
 const {v4:uuidv4}=require('uuid');
 const path=require('path');
+const fs = require('fs');
 const { updateImage, deleteImg } = require('../helpers/updateImage.js');
+const { log } = require('console');
 const putAttachment= async (req, res) => {
     const tipo=req.params.type;
     const id=Number(req.params.id);
@@ -22,6 +24,7 @@ const putAttachment= async (req, res) => {
         });
     }
     const file = req.files.image;
+    console.log(file);
     const nombreCortado = file.name.split('.');
     const extensionArchivo = nombreCortado[nombreCortado.length - 1];   
     // Validar extensión
@@ -68,7 +71,7 @@ const returnImg = (req, res) => {
     const foto = req.params.img;
 
     let pathImg = path.join(__dirname, `../uploads/${tipo}/${foto}`);
-    if (!deleteImg(pathImg)) {
+    if (!fs.existsSync(pathImg)) {
         pathImg = path.join(__dirname, `../uploads/No-image-found.jpg`);
     }
     res.sendFile(pathImg);
