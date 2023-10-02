@@ -73,10 +73,11 @@ const updateUser=async (req,res=response)=>{
             delete campos.email;
         }
 
-        await models.User.update(req.body,{where:{id:userId}});
+        const userUpdate=await models.User.update(req.body,{where:{id:userId}});
         res.json({
             ok:true,
-            msg:'Usuario actualizado'
+            msg:'Usuario actualizado',
+            user:{userUpdate,...userExist}
         });
         
     } catch (error) {
