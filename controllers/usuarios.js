@@ -21,6 +21,28 @@ const getUsers = async (req, res) => {
     });
 
 }
+const getUserById = async (req, res) => {
+    const userId = req.params.id;
+    try {
+        const user = await models.User.findByPk(userId);
+        if (!user) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'No existe un usuario con ese id'
+            })
+        }
+        res.json({
+            ok: true,
+            usuario: user
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Error inesperado'
+        })
+    }
+}
 const createUser = async (req, res) => {
     const { name, email, password } = req.body;
 
@@ -117,5 +139,6 @@ module.exports = {
     getUsers,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    getUserById
 }
